@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylumi - Avatar Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- Root and Global Styles (Consistent Theme) --- */
+        :root {
+            --color-primary: #0077b6; /* Deep Cerulean Blue */
+            --color-secondary: #00b894; /* Electric Green */
+            --color-text-dark: #2d3436;
+            --color-text-light: #f5f6fa;
+            --color-background: #e9ecef;
+            --color-card-bg: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --header-height: 65px;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: var(--color-background);
+        }
+
+        a { text-decoration: none; color: var(--color-primary); }
+
+        /* --- Header Styles (Shared) --- */
+        .header {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 5%; background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow); position: sticky; top: 0; z-index: 1000;
+            height: var(--header-height);
+        }
+        .logo { font-size: 1.8em; font-weight: 800; color: var(--color-primary); }
+        .nav-links { display: flex; flex-grow: 1; margin-left: 30px; }
+        .nav-links a { margin: 0 15px; font-weight: 600; }
+        .user-actions { display: flex; align-items: center; }
+        
+        /* Currency Container and Display */
+        .currency-dropdown-container {
+            position: relative; 
+            cursor: pointer;
+            z-index: 1010; 
+        }
+
+        .currency-display { 
+            display: flex; align-items: center; background-color: #ffeaa7; 
+            border: 1px solid #fdcb6e; padding: 5px 10px; border-radius: 20px; 
+            font-weight: 600; color: #e17055; margin-right: 15px; 
+            transition: box-shadow 0.2s;
+        }
+        .currency-display:hover {
+            box-shadow: 0 0 5px rgba(225, 112, 85, 0.5);
+        }
+
+        .currency-display i { margin-right: 5px; color: #e17055; }
+        
+        /* DROPDOWN PANEL STYLES */
+        .currency-dropdown-panel {
+            display: none; 
+            position: absolute;
+            top: 100%; 
+            right: 0;
+            width: 250px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+            margin-top: 10px; 
+            padding: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .dropdown-item { padding: 10px 15px; display: flex; align-items: center; font-weight: 500; }
+        
+        .profile-icon { 
+            width: 35px; height: 35px; border-radius: 50%; background-color: var(--color-secondary);
+            color: white; display: flex; justify-content: center; align-items: center; font-weight: bold;
+        }
+        .btn { 
+            padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; 
+            cursor: pointer; transition: background-color 0.3s, transform 0.2s; 
+        }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); }
+        .btn-primary:hover { background-color: #005f93; transform: translateY(-1px); }
+        
+        /* HAMBURGER BUTTON STYLES */
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
+            font-size: 1.5em;
+            color: var(--color-text-dark);
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        
+        /* --- Avatar Editor Layout --- */
+        .editor-container {
+            display: flex;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* Sidebar for Categories */
+        .editor-sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--color-card-bg);
+            padding: 20px;
+            box-shadow: 2px 0 5px var(--color-shadow);
+            overflow-y: auto;
+            flex-shrink: 0; 
+        }
+        
+        .editor-sidebar h2 {
+            font-size: 1.2em;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .category-list button {
+            display: block;
+            width: 100%;
+            padding: 12px 10px;
+            margin-bottom: 8px;
+            border: none;
+            background-color: transparent;
+            text-align: left;
+            font-weight: 500;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .category-list button:hover {
+            background-color: #f1f3f5;
+            color: var(--color-primary);
+        }
+
+        .category-list button.active {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            font-weight: 600;
+        }
+
+        .category-list button i {
+            margin-right: 10px;
+        }
+
+        /* Main Content Area */
+        .editor-main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* 3D Preview Panel */
+        .preview-panel {
+            background-color: #dfe6e9; 
+            border-radius: 12px;
+            flex-grow: 1;
+            min-height: 400px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar-placeholder {
+            font-size: 2em;
+            color: var(--color-text-dark);
+            font-weight: 600;
+            opacity: 0.5;
+            text-align: center;
+        }
+
+        .preview-actions {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-actions button {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .preview-actions button:hover {
+            background-color: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        /* Inventory/Item Panel */
+        .inventory-panel {
+            background-color: var(--color-card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px var(--color-shadow);
+            min-height: 250px;
+            overflow: hidden;
+        }
+        
+        .inventory-panel h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: var(--color-text-dark);
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            max-height: 200px; 
+            overflow-y: auto;
+            padding-bottom: 10px;
+        }
+
+        .item-card {
+            text-align: center;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .item-card:hover {
+            background-color: #f1f3f5;
+        }
+
+        .item-card.equipped {
+            border: 2px solid var(--color-secondary);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: #ccc;
+        }
+
+        .item-name {
+            font-size: 0.8em;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* --- Footer (Shared) --- */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-text-light);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 0; 
+        }
+
+        /* --- MOBILE VIEW STYLES FIXES --- */
+        @media (max-width: 768px) {
+            /* Header adjustments for space */
+            .header { padding: 10px 15px; }
+            .nav-links { display: none; } /* Hide primary navigation links */
+            .user-actions { gap: 10px; } /* Space out actions */
+            .currency-display { margin-right: 5px; } /* Reduce margin */
+            
+            .hamburger-menu {
+                display: block; /* Show hamburger button on mobile */
+            }
+
+            .editor-container {
+                flex-direction: column; 
+            }
+
+            .editor-sidebar {
+                width: 100%; 
+                min-height: 0;
+                order: 2; 
+                padding: 15px 0; /* Remove horizontal padding since category-list is scrolled */
+            }
+            
+            .editor-sidebar h2 {
+                display: none; 
+            }
+
+            .category-list {
+                display: flex; 
+                overflow-x: scroll; /* Use scroll for navigation on mobile */
+                padding: 0 10px 10px 10px; /* Add padding to the scrollable area */
+            }
+            
+            .category-list button {
+                min-width: 100px; /* Slightly smaller button width */
+                margin: 0 5px;
+                padding: 10px 15px;
+                white-space: nowrap;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                font-size: 0.75em; /* Smaller font */
+            }
+
+            .category-list button i {
+                margin-right: 0;
+                margin-bottom: 5px;
+                font-size: 1.2em;
+            }
+
+            .editor-main {
+                order: 1; 
+                padding: 15px;
+            }
+
+            .item-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+                max-height: 150px; 
+            }
+            
+            .item-image {
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sylumi</div>
+        <nav class="nav-links">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html">Avatar Shop</a> 
+        </nav>
+        <div class="user-actions">
+            
+            <div class="currency-dropdown-container" id="currency-toggle">
+                <div class="currency-display">
+                    <i class="fas fa-coins"></i> 
+                    <span id="lumicoin-balance">1,250 LC</span>
+                </div>
+
+                <div class="currency-dropdown-panel">
+                    <div class="dropdown-item">
+                        <i class="fas fa-wallet"></i> 
+                        Current Balance: <span style="font-weight:700; margin-left: auto;">1,250 LC</span>
+                    </div>
+                    <a href="store.html" class="dropdown-item">
+                        <i class="fas fa-tshirt"></i> 
+                        Visit Avatar Shop
+                    </a>
+                    <a href="buy-coins.html" class="dropdown-item" style="color: var(--color-secondary); font-weight: 600;">
+                        <i class="fas fa-dollar-sign"></i> 
+                        Buy More LumiCoins
+                    </a>
+                </div>
+            </div>
+            
+            <div class="profile-icon">U</div>
+            
+            <div class="hamburger-menu" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="editor-container">
+        
+        <aside class="editor-sidebar">
+            <h2>Customize Avatar</h2>
+            <div class="category-list">
+                <button class="active"><i class="fas fa-user-circle"></i> Body</button>
+                <button><i class="fas fa-male"></i> Clothing</button>
+                <button><i class="fas fa-hat-wizard"></i> Headwear</button>
+                <button><i class="fas fa-glasses"></i> Accessories</button>
+                <button><i class="fas fa-magic"></i> Effects</button>
+                <button><i class="fas fa-palette"></i> Colors</button>
+                <button><i class="fas fa-search-dollar"></i> Get More Items</button>
+            </div>
+        </aside>
+
+        <div class="editor-main">
+            
+            <div class="preview-panel">
+                <div class="avatar-placeholder">3D Avatar Preview Area</div>
+                <div class="preview-actions">
+                    <button title="Rotate Left"><i class="fas fa-undo"></i></button>
+                    <button title="Zoom"><i class="fas fa-search-plus"></i></button>
+                    <button title="Save Outfit"><i class="fas fa-save"></i></button>
+                </div>
+            </div>
+
+            <div class="inventory-panel">
+                <h3>Items in **Clothing** Category (8)</h3>
+                <div class="item-grid">
+                    
+                    <div class="item-card equipped">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-name">Blue Hoodie</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-name">Red T-Shirt</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-shoe-prints"></i></div>
+                        <div class="item-name">Sneakers</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-socks"></i></div>
+                        <div class="item-name">Striped Socks</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-name">Vest</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-shoe-prints"></i></div>
+                        <div class="item-name">Boots</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-name">Polo Shirt</div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-name">Jacket</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Placeholder JavaScript for category switching and currency dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.category-list button');
+            const inventoryTitle = document.querySelector('.inventory-panel h3');
+            
+            // Currency Dropdown Logic
+            const currencyContainer = document.querySelector('.currency-dropdown-container');
+            const dropdownPanel = document.querySelector('.currency-dropdown-panel');
+
+            currencyContainer.addEventListener('click', function(event) {
+                event.stopPropagation(); 
+                dropdownPanel.style.display = dropdownPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function() {
+                if (dropdownPanel.style.display === 'block') {
+                    dropdownPanel.style.display = 'none';
+                }
+            });
+
+
+            // Category Switching Logic
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const categoryName = this.textContent.trim().replace('Get More Items', 'Store Items');
+                    inventoryTitle.innerHTML = `Items in **${categoryName}** Category`;
+
+                    if (categoryName.includes('Get More Items')) {
+                         inventoryTitle.innerHTML = `Items from **Avatar Shop** (Store)`;
+                    } else if (categoryName === 'Body') {
+                        inventoryTitle.innerHTML = `Body Parts & **Color** Options`;
+                    }
+                });
+            });
+        });
+        
+        // Mobile Menu Placeholder Function
+        function toggleMobileMenu() {
+            alert("Mobile Menu Toggled! (In a real app, this would open the full navigation)");
+            // Here you would typically toggle a class on a full-screen menu overlay.
+        }
+    </script>
+</body>
+</html>

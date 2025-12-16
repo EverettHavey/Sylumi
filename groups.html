@@ -54,14 +54,44 @@
         .logo { font-size: 1.8em; font-weight: 800; color: var(--color-primary); }
         .nav-links { flex-grow: 1; margin-left: 30px; }
         .nav-links a { margin: 0 15px; font-weight: 600; transition: color 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--color-secondary); }
         .user-actions { display: flex; align-items: center; }
+        
+        /* Currency Container and Display */
+        .currency-dropdown-container {
+            position: relative; 
+            cursor: pointer;
+            z-index: 1010; 
+        }
+
         .currency-display { 
             display: flex; align-items: center; background-color: #ffeaa7; 
             border: 1px solid #fdcb6e; padding: 5px 10px; border-radius: 20px; 
             font-weight: 600; color: #e17055; margin-right: 15px; 
+            transition: box-shadow 0.2s;
         }
+        .currency-display:hover {
+            box-shadow: 0 0 5px rgba(225, 112, 85, 0.5);
+        }
+
         .currency-display i { margin-right: 5px; color: #e17055; }
+        
+        /* DROPDOWN PANEL STYLES */
+        .currency-dropdown-panel {
+            display: none; /* Hidden by default */
+            position: absolute;
+            top: 100%; 
+            right: 0;
+            width: 250px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+            margin-top: 10px; 
+            padding: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .dropdown-item { padding: 10px 15px; display: flex; align-items: center; font-weight: 500; }
+        .dropdown-item i { margin-right: 10px; color: var(--color-primary); }
+
         .profile-icon { 
             width: 35px; height: 35px; border-radius: 50%; background-color: var(--color-secondary);
             color: white; display: flex; justify-content: center; align-items: center; font-weight: bold;
@@ -69,136 +99,49 @@
         .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
         .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); }
         .btn-primary:hover { background-color: #005f93; }
-        .btn-secondary { background-color: var(--color-secondary); color: var(--color-text-light); }
-        .btn-secondary:hover { background-color: #008f72; }
         
-        /* Dropdown/Mobile styles omitted for brevity, assume shared structure */
-
-        /* --- Groups Page Layout --- */
-        .groups-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .groups-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .groups-header h1 {
-            font-size: 2.2em;
-            color: var(--color-primary);
-        }
-        
-        .search-bar {
-            flex-grow: 1;
-            margin: 0 40px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            font-size: 1em;
-        }
-        
-        /* --- Group List Section --- */
-        .group-list {
-            background-color: var(--color-card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px var(--color-shadow);
-        }
-
-        .section-title {
+        /* HAMBURGER BUTTON STYLES */
+        .hamburger-menu {
+            display: none; 
             font-size: 1.5em;
             color: var(--color-text-dark);
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .group-item-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-
-        /* Styling for an individual group in the list (like Roblox's tiles) */
-        .group-item {
-            display: flex;
-            align-items: center;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            transition: box-shadow 0.2s, transform 0.2s;
             cursor: pointer;
-        }
-        
-        .group-item:hover {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+            margin-left: 15px;
         }
 
-        .group-icon {
-            width: 80px;
-            height: 80px;
-            min-width: 80px; /* Prevent shrinking */
-            border-radius: 10px;
-            background-color: #dfe6e9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5em;
-            color: var(--color-primary);
-            margin-right: 15px;
-            overflow: hidden;
-        }
+        /* --- Groups Page Layout (Rest of styles omitted for brevity) --- */
+        .groups-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .groups-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .groups-header h1 { font-size: 2.2em; color: var(--color-primary); }
+        .search-bar { flex-grow: 1; margin: 0 40px; }
+        .search-bar input { width: 100%; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 1em; }
+        .group-list { background-color: var(--color-card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px var(--color-shadow); }
+        .section-title { font-size: 1.5em; color: var(--color-text-dark); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .group-item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .group-item { display: flex; align-items: center; background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; }
+        .group-item:hover { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); transform: translateY(-2px); }
+        .group-icon { width: 80px; height: 80px; min-width: 80px; border-radius: 10px; background-color: #dfe6e9; display: flex; justify-content: center; align-items: center; font-size: 2.5em; color: var(--color-primary); margin-right: 15px; overflow: hidden; }
+        .group-details h4 { font-size: 1.2em; margin-bottom: 2px; color: var(--color-primary); }
+        .group-details p { font-size: 0.9em; color: #6c757d; line-height: 1.3; }
+        .group-details .member-count { font-weight: 600; color: var(--color-secondary); margin-top: 5px; }
+        .footer { background-color: var(--color-text-dark); color: var(--color-text-light); padding: 20px 5%; text-align: center; margin-top: 40px; }
 
-        .group-details h4 {
-            font-size: 1.2em;
-            margin-bottom: 2px;
-            color: var(--color-primary);
-        }
-
-        .group-details p {
-            font-size: 0.9em;
-            color: #6c757d;
-            line-height: 1.3;
-        }
-
-        .group-details .member-count {
-            font-weight: 600;
-            color: var(--color-secondary);
-            margin-top: 5px;
-        }
-
-        /* --- Footer (Shared) --- */
-        .footer {
-            background-color: var(--color-text-dark);
-            color: var(--color-text-light);
-            padding: 20px 5%;
-            text-align: center;
-            margin-top: 40px;
-        }
-
+        /* --- MOBILE VIEW STYLES FIXES (Rest of styles omitted for brevity) --- */
         @media (max-width: 768px) {
-            .groups-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .search-bar {
-                width: 100%;
-                margin: 20px 0;
-            }
-            .group-item-grid {
-                grid-template-columns: 1fr;
-            }
+            .header { padding: 10px 15px; }
+            .nav-links { display: none; }
+            .user-actions { gap: 10px; }
+            .currency-display { margin-right: 5px; }
+            .hamburger-menu { display: block; }
+            .groups-container { margin: 20px 0; padding: 0 15px; }
+            .groups-header { flex-direction: column; align-items: stretch; margin-bottom: 20px; gap: 15px; }
+            .groups-header h1 { font-size: 1.8em; text-align: center; margin-bottom: 0; }
+            .search-bar { width: 100%; margin: 0; order: 2; }
+            .groups-header .btn { width: 100%; padding: 12px; order: 3; }
+            .group-list { padding: 15px; }
+            .group-item-grid { grid-template-columns: 1fr; }
+            .group-icon { width: 60px; height: 60px; min-width: 60px; font-size: 2em; }
+            .group-details h4 { font-size: 1.1em; }
         }
     </style>
 </head>
@@ -213,12 +156,34 @@
             <a href="store.html">Avatar Shop</a> 
         </nav>
         <div class="user-actions">
-            <div class="currency-display">
-                <i class="fas fa-coins"></i> 
-                <span>1,250 LC</span>
+            
+            <div class="currency-dropdown-container" id="currency-toggle">
+                <div class="currency-display">
+                    <i class="fas fa-coins"></i> 
+                    <span>1,250 LC</span>
+                </div>
+                
+                <div class="currency-dropdown-panel">
+                    <div class="dropdown-item">
+                        <i class="fas fa-wallet"></i> 
+                        Current Balance: <span style="font-weight:700; margin-left: auto;">1,250 LC</span>
+                    </div>
+                    <a href="store.html" class="dropdown-item">
+                        <i class="fas fa-tshirt"></i> 
+                        Visit Avatar Shop
+                    </a>
+                    <a href="buy-coins.html" class="dropdown-item" style="color: var(--color-secondary); font-weight: 600;">
+                        <i class="fas fa-dollar-sign"></i> 
+                        Buy More LumiCoins
+                    </a>
+                </div>
             </div>
-            <a href="buy-coins.html" class="btn btn-secondary" style="padding: 5px 10px;">Buy LC</a>
+            
             <div class="profile-icon">U</div>
+            
+            <div class="hamburger-menu" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
@@ -241,41 +206,41 @@
             
             <div class="group-item-grid">
                 
-                <div class="group-item">
+                <a href="#" class="group-item">
                     <div class="group-icon" style="background-color: #0077b6; color: white;"><i class="fas fa-certificate"></i></div>
                     <div class="group-details">
                         <h4>Sylumi Official</h4>
                         <p>The main hub for all news, updates, and announcements.</p>
                         <div class="member-count">250,000 Members</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="group-item">
+                <a href="#" class="group-item">
                     <div class="group-icon"><i class="fas fa-code"></i></div>
                     <div class="group-details">
                         <h4>Master Builders Club</h4>
                         <p>For creators designing the next generation of Sylumi games.</p>
                         <div class="member-count">15,480 Members</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="group-item">
+                <a href="#" class="group-item">
                     <div class="group-icon"><i class="fas fa-mask"></i></div>
                     <div class="group-details">
                         <h4>Realm of Fantasia RP</h4>
                         <p>Discuss theories and organize roleplay sessions in the Fantasia World.</p>
                         <div class="member-count">88,102 Members</div>
                     </div>
-                </div>
+                </a>
                 
-                <div class="group-item">
+                <a href="#" class="group-item">
                     <div class="group-icon" style="background-color: #f7a300;"><i class="fas fa-star"></i></div>
                     <div class="group-details">
                         <h4>Sky Tower Fanatics</h4>
                         <p>The largest community dedicated to the hit game, Sky Tower!</p>
                         <div class="member-count">112,900 Members</div>
                     </div>
-                </div>
+                </a>
                 
             </div>
         </div>
@@ -285,22 +250,22 @@
                 Groups You Might Like
             </div>
             <div class="group-item-grid">
-                <div class="group-item">
+                <a href="#" class="group-item">
                     <div class="group-icon"><i class="fas fa-robot"></i></div>
                     <div class="group-details">
                         <h4>Tech Enthusiasts</h4>
                         <p>Talk about scripting and advanced mechanics.</p>
                         <div class="member-count">4,500 Members</div>
                     </div>
-                </div>
-                <div class="group-item">
+                </a>
+                <a href="#" class="group-item">
                     <div class="group-icon"><i class="fas fa-camera"></i></div>
                     <div class="group-details">
                         <h4>Avatar Fashion Show</h4>
                         <p>Show off your best outfits and win prizes.</p>
                         <div class="member-count">22,300 Members</div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -315,6 +280,31 @@
         </div>
         <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
     </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Currency Dropdown Logic
+            const currencyContainer = document.querySelector('.currency-dropdown-container');
+            const dropdownPanel = document.querySelector('.currency-dropdown-panel');
 
+            currencyContainer.addEventListener('click', function(event) {
+                event.stopPropagation(); 
+                // Toggle display of the dropdown panel
+                dropdownPanel.style.display = dropdownPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Close dropdown when clicking anywhere else on the page
+            document.addEventListener('click', function() {
+                if (dropdownPanel.style.display === 'block') {
+                    dropdownPanel.style.display = 'none';
+                }
+            });
+        });
+
+        // Mobile Menu Placeholder Function
+        function toggleMobileMenu() {
+            alert("Mobile Menu Toggled! (In a real app, this would open the full navigation)");
+        }
+    </script>
 </body>
 </html>

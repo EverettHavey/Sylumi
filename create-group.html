@@ -37,165 +37,121 @@
 
         /* --- Header Styles (Shared) --- */
         .header {
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 5%; background-color: var(--color-card-bg); 
-            box-shadow: 0 2px 4px var(--color-shadow); position: sticky; top: 0; z-index: 1000;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 5%; 
+            background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            height: var(--header-height);
         }
         .logo { font-size: 1.8em; font-weight: 800; color: var(--color-primary); }
+        
+        /* FIX: Ensure nav-links are present and spaced correctly after the logo */
+        .nav-links { 
+            display: flex; 
+            flex-grow: 1; /* Allows links to take up space in the middle */
+            margin-left: 30px; /* Space between logo and links */
+            align-items: center; 
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            font-weight: 600; 
+            color: var(--color-text-dark);
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .user-actions { display: flex; align-items: center; }
+
+        /* Currency Container and Display */
+        .currency-dropdown-container {
+            position: relative; 
+            cursor: pointer;
+            z-index: 1010; 
+        }
+
+        .currency-display { 
+            display: flex; align-items: center; background-color: #ffeaa7; 
+            border: 1px solid #fdcb6e; padding: 5px 10px; border-radius: 20px; 
+            font-weight: 600; color: #e17055; margin-right: 15px; 
+            transition: box-shadow 0.2s;
+        }
+        .currency-display:hover {
+            box-shadow: 0 0 5px rgba(225, 112, 85, 0.5);
+        }
+
+        .currency-display i { margin-right: 5px; color: #e17055; }
+        
+        /* DROPDOWN PANEL STYLES */
+        .currency-dropdown-panel {
+            display: none; /* Hidden by default */
+            position: absolute;
+            top: 100%; 
+            right: 0;
+            width: 250px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+            margin-top: 10px; 
+            padding: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .dropdown-item { padding: 10px 15px; display: flex; align-items: center; font-weight: 500; }
+        .dropdown-item i { margin-right: 10px; color: var(--color-primary); }
+
+        .profile-icon { 
+            width: 35px; height: 35px; border-radius: 50%; background-color: var(--color-secondary);
+            color: white; display: flex; justify-content: center; align-items: center; font-weight: bold;
+        }
+
         .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
         .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); }
         .btn-primary:hover { background-color: #005f93; }
-        .btn-secondary { background-color: var(--color-secondary); color: var(--color-text-light); }
-        .btn-secondary:hover { background-color: #008f72; }
 
-        /* --- Creation Form Layout --- */
-        .create-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: var(--color-card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px var(--color-shadow);
-        }
-
-        .create-container h1 {
-            color: var(--color-primary);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-        
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--color-text-dark);
-        }
-        
-        .form-group input[type="text"],
-        .form-group textarea,
-        .cost-display {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 1em;
-        }
-        
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        .hint {
-            font-size: 0.8em;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-        
-        /* Icon Upload Area */
-        .icon-upload-area {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-        }
-        
-        .icon-preview {
-            width: 80px;
-            height: 80px;
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* HAMBURGER BUTTON STYLES */
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
             font-size: 1.5em;
-            color: #ccc;
-            margin-right: 20px;
-        }
-
-        .icon-upload-button {
-            border: 1px solid var(--color-secondary);
-            color: var(--color-secondary);
-            background-color: #e0f8f3;
-            padding: 8px 15px;
-            border-radius: 5px;
+            color: var(--color-text-dark);
             cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .icon-upload-button:hover {
-            background-color: #c9f1e8;
-        }
-        
-        .icon-upload-button input[type="file"] {
-            display: none;
+            margin-left: 15px;
         }
 
-        /* Group Cost Styling (Like Roblox's 100 R$) */
-        .cost-section {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            margin-top: 30px;
-        }
-        
-        .cost-section h2 {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            color: var(--color-text-dark);
-        }
-        
-        .cost-display {
-            background-color: #fff3cd; 
-            color: #e17055;
-            font-weight: 700;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .cost-display i {
-            margin-right: 10px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
+        /* --- Creation Form Layout (styles omitted for brevity) --- */
+        .create-container { max-width: 800px; margin: 40px auto; padding: 30px; background-color: var(--color-card-bg); border-radius: 12px; box-shadow: 0 4px 15px var(--color-shadow); }
+        .create-container h1 { color: var(--color-primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: var(--color-text-dark); }
+        .form-group input[type="text"], .form-group textarea, .cost-display { width: 100%; padding: 10px 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 1em; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .hint { font-size: 0.8em; color: #6c757d; margin-top: 5px; }
+        .icon-upload-area { display: flex; align-items: center; margin-top: 15px; }
+        .icon-preview { width: 80px; height: 80px; border: 2px dashed #ccc; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.5em; color: #ccc; margin-right: 20px; flex-shrink: 0; }
+        .icon-upload-button { border: 1px solid var(--color-secondary); color: var(--color-secondary); background-color: #e0f8f3; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; }
+        .cost-section { border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px; }
+        .cost-display { background-color: #fff3cd; color: #e17055; font-weight: 700; display: flex; justify-content: center; align-items: center; font-size: 1.5em; padding: 15px; margin-bottom: 20px; }
+        .action-buttons { display: flex; justify-content: flex-end; gap: 15px; }
+        .footer { background-color: var(--color-text-dark); color: var(--color-text-light); padding: 20px 5%; text-align: center; margin-top: 40px; }
 
-        /* --- Footer (Shared) --- */
-        .footer {
-            background-color: var(--color-text-dark);
-            color: var(--color-text-light);
-            padding: 20px 5%;
-            text-align: center;
-            margin-top: 40px;
-        }
-        
-        @media (max-width: 600px) {
-            .create-container {
-                margin: 20px 10px;
-                padding: 20px;
-            }
-            .groups-header h1 {
-                font-size: 1.8em;
-            }
-            .icon-upload-area {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .icon-preview {
-                margin-bottom: 10px;
-                margin-right: 0;
-            }
+        /* --- MOBILE VIEW STYLES FIXES --- */
+        @media (max-width: 768px) {
+            .header { padding: 10px 15px; }
+            /* FIX: Hide navigation links on mobile */
+            .nav-links { display: none; } 
+            .user-actions { gap: 10px; }
+            .currency-display { margin-right: 5px; }
+            .hamburger-menu { display: block; }
+
+            .create-container { margin: 20px 10px; padding: 20px; }
+            .icon-upload-area { flex-direction: column; align-items: flex-start; }
+            .action-buttons { flex-direction: column; gap: 10px; }
+            .action-buttons .btn { width: 100%; }
         }
     </style>
 </head>
@@ -203,19 +159,43 @@
 
     <header class="header">
         <div class="logo">Sylumi</div>
+        
         <nav class="nav-links">
             <a href="index.html">Play</a>
             <a href="create.html">Create</a>
             <a href="community.html">Community</a>
             <a href="store.html">Avatar Shop</a> 
         </nav>
+        
         <div class="user-actions">
-            <div class="currency-display">
-                <i class="fas fa-coins"></i> 
-                <span>1,250 LC</span>
+            
+            <div class="currency-dropdown-container" id="currency-toggle">
+                <div class="currency-display">
+                    <i class="fas fa-coins"></i> 
+                    <span>1,250 LC</span>
+                </div>
+                
+                <div class="currency-dropdown-panel">
+                    <div class="dropdown-item">
+                        <i class="fas fa-wallet"></i> 
+                        Current Balance: <span style="font-weight:700; margin-left: auto;">1,250 LC</span>
+                    </div>
+                    <a href="store.html" class="dropdown-item">
+                        <i class="fas fa-tshirt"></i> 
+                        Visit Avatar Shop
+                    </a>
+                    <a href="buy-coins.html" class="dropdown-item" style="color: var(--color-secondary); font-weight: 600;">
+                        <i class="fas fa-dollar-sign"></i> 
+                        Buy More LumiCoins
+                    </a>
+                </div>
             </div>
-            <a href="buy-coins.html" class="btn btn-secondary" style="padding: 5px 10px;">Buy LC</a>
+            
             <div class="profile-icon">U</div>
+            
+            <div class="hamburger-menu" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
@@ -277,18 +257,43 @@
     </footer>
 
     <script>
-        // Basic form submission simulation
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('group-name').value;
-            if (name.trim()) {
-                alert(`Attempting to create group "${name}" for 100 LC. (Success simulated!)`);
-                // In a real application, this would send data to the server
-                window.location.href = 'groups.html';
-            } else {
-                alert('Please enter a group name.');
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Currency Dropdown Logic
+            const currencyContainer = document.querySelector('.currency-dropdown-container');
+            const dropdownPanel = document.querySelector('.currency-dropdown-panel');
+
+            currencyContainer.addEventListener('click', function(event) {
+                event.stopPropagation(); 
+                // Toggle display of the dropdown panel
+                dropdownPanel.style.display = dropdownPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Close dropdown when clicking anywhere else on the page
+            document.addEventListener('click', function() {
+                if (dropdownPanel.style.display === 'block') {
+                    dropdownPanel.style.display = 'none';
+                }
+            });
+            
+            // Basic form submission simulation
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('group-name').value;
+                if (name.trim()) {
+                    alert(`Attempting to create group "${name}" for 100 LC. (Success simulated!)`);
+                    // In a real app, this would redirect to the new group's page
+                    // For now, redirect to the groups list:
+                    window.location.href = 'groups.html';
+                } else {
+                    alert('Please enter a group name.');
+                }
+            });
         });
+        
+        // Mobile Menu Placeholder Function
+        function toggleMobileMenu() {
+            alert("Mobile Menu Toggled! (In a real app, this would open the full navigation)");
+        }
     </script>
 </body>
 </html>

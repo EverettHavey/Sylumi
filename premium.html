@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylumi Premium - Upgrade Your Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- Root and Global Styles --- */
+        :root {
+            --color-primary: #0077b6;
+            --color-secondary: #00b894;
+            --color-text-dark: #2d3436;
+            --color-text-light: #f5f6fa;
+            --color-background: #e9ecef;
+            --color-card-bg: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --color-gold: #FFC300;
+            --color-gold-text: #e17055;
+            --header-height: 65px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: var(--color-background);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+        
+        /* --- Buttons (Base Styles) --- */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            flex-shrink: 0; 
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            width: 100%; /* Full width for card buttons */
+        }
+
+        .btn-primary:hover {
+            background-color: #005f93;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+            width: 100%; /* Full width for card buttons */
+        }
+        
+        .btn-secondary:hover {
+            background-color: #00a683;
+            transform: translateY(-2px);
+        }
+        
+        /* --- HEADER STYLES (PC VIEW - FIXED) --- */
+        .header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 30px; 
+            background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            height: var(--header-height);
+            width: 100%;
+        }
+        .logo { 
+            font-size: 1.8em; 
+            font-weight: 800; 
+            color: var(--color-primary); 
+            flex-shrink: 0;
+            z-index: 1001; 
+        }
+
+        /* PC Navigation: Centered with full flex-grow */
+        .nav-links { 
+            display: flex; 
+            flex-grow: 1; 
+            justify-content: center; /* CENTERS THE LINKS */
+            align-items: center; 
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            font-weight: 600; 
+            color: var(--color-text-dark); 
+            flex-shrink: 0;
+        }
+
+        /* PC User Actions: Grouped on the right */
+        .user-actions { 
+            display: flex; 
+            align-items: center; 
+            flex-shrink: 0;
+            z-index: 1001; 
+        }
+        .currency-display { 
+            display: flex; 
+            align-items: center; 
+            background-color: #ffeaa7; 
+            border: 1px solid #fdcb6e; 
+            padding: 5px 10px; 
+            border-radius: 20px; 
+            font-weight: 600; 
+            color: var(--color-gold-text); 
+            margin-right: 15px; 
+        }
+        .profile-icon { 
+            width: 35px; height: 35px; border-radius: 50%; 
+            background-color: var(--color-secondary); color: white; 
+            display: flex; justify-content: center; align-items: center; 
+            font-weight: bold; margin-left: 10px;
+        }
+
+        /* PC Log Out Button */
+        .btn-logout-pc { 
+            background-color: transparent; 
+            color: var(--color-primary); 
+            border: 1px solid var(--color-primary); 
+            padding: 5px 10px; 
+            margin-right: 10px; 
+            display: block; /* Visible on PC */
+            width: auto; 
+        }
+
+        .menu-toggle { 
+            display: none; /* HIDDEN on PC */
+            font-size: 1.5em; 
+            cursor: pointer; 
+            margin-left: 15px; 
+            border: none;
+            background: none;
+            color: var(--color-text-dark);
+        }
+
+        /* Mobile Dropdown Styling (The actual menu container) */
+        .mobile-menu-dropdown {
+            display: none; /* Hidden by default on all screens */
+            flex-direction: column;
+            width: 100%;
+            position: absolute;
+            top: var(--header-height); 
+            left: 0;
+            background-color: var(--color-card-bg);
+            box-shadow: 0 4px 8px var(--color-shadow);
+            z-index: 999;
+        }
+        .mobile-menu-dropdown a {
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            font-weight: 600;
+            color: var(--color-text-dark);
+        }
+        .mobile-menu-dropdown .btn-logout-mobile {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            text-align: center;
+            border-bottom: none;
+            padding: 15px 20px;
+        }
+        
+        /* --- PREMIUM PAGE STYLES (RESTORED FIX) --- */
+        .premium-container {
+            max-width: 1200px; 
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .premium-container h1 {
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .premium-container p.subtitle {
+            font-size: 1.2em;
+            color: #6c757d;
+            margin-bottom: 50px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* --- Pricing Card Styles --- */
+        .price-card {
+            background-color: var(--color-card-bg);
+            padding: 30px; 
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+            border: 2px solid #fff;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+        }
+
+        .tier-name {
+            font-size: 1.8em; 
+            font-weight: 800;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        .tier-price {
+            font-size: 2.5em; 
+            font-weight: 800;
+            color: var(--color-text-dark);
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .tier-price small {
+            font-size: 0.5em;
+            font-weight: 400;
+            color: #6c757d;
+        }
+
+        /* Highlight the Ultimate tier */
+        .price-card.ultimate {
+            border-color: var(--color-gold);
+            background: linear-gradient(180deg, #fffcf5 0%, var(--color-card-bg) 100%);
+        }
+
+        .ultimate .tier-name, .ultimate .tier-price {
+            color: var(--color-gold);
+        }
+
+        .ultimate .btn-secondary {
+            background-color: var(--color-gold);
+            color: var(--color-text-dark);
+        }
+
+        .ultimate .btn-secondary:hover {
+            background-color: #d8a800;
+        }
+
+        /* Styling for the Basic tier */
+        .price-card.basic {
+            border-color: var(--color-primary);
+        }
+
+        /* Styling for the Pro tier */
+        .price-card.pro {
+            border-color: var(--color-secondary);
+        }
+        .pro .tier-name {
+            color: var(--color-secondary);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1em;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li i.fa-check {
+            color: var(--color-secondary);
+            margin-right: 10px;
+        }
+
+        .feature-list li i.fa-times {
+            color: #dc3545;
+            margin-right: 10px;
+        }
+
+        /* --- Footer (Reused) --- */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-text-light);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* --- MOBILE VIEW FIXES (@media 992px breakpoint) --- */
+        @media (max-width: 992px) {
+            
+            /* Pricing grid stack for smaller screens */
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 10px 20px; 
+            }
+
+            /* 1. Hide the PC Navigation links */
+            .nav-links {
+                display: none; 
+            }
+            
+            /* 2. Show the mobile menu toggle button */
+            .menu-toggle { 
+                display: block; 
+            }
+
+            /* 3. Hide the PC Log Out button */
+            .btn-logout-pc {
+                display: none;
+            }
+
+            /* 4. Smallest Screen Adjustment */
+            @media (max-width: 480px) {
+                .currency-display span {
+                    display: none; 
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sylumi</div>
+        
+        <nav class="nav-links">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html">Avatar Shop</a> 
+        </nav>
+        
+        <div class="user-actions">
+            <div class="currency-display">
+                <i class="fas fa-coins"></i> 
+                <span>1,250 LC</span>
+            </div>
+            <button class="btn btn-logout-pc">Log Out</button> 
+            <div class="profile-icon">U</div>
+            <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
+        </div>
+
+        <div class="mobile-menu-dropdown">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html">Avatar Shop</a> 
+            <a href="#" class="btn-logout-mobile">Log Out</a> 
+        </div>
+    </header>
+
+    <main class="premium-container">
+        <h1>Unlock Your Full Potential</h1>
+        <p class="subtitle">Choose the Sylumi Premium plan that's right for you and maximize your rewards and benefits.</p>
+
+        <div class="pricing-grid">
+            
+            <div class="price-card basic">
+                <div class="card-header">
+                    <div class="tier-name">Basic</div>
+                    <div class="tier-price">$9.99<small>/mo</small></div>
+                    <p>Great value for casual play.</p>
+                </div>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Standard Game Access</li>
+                    <li><i class="fas fa-check"></i> Basic Avatar Customization</li>
+                    <li><i class="fas fa-check"></i> **100** Daily Lumicoin Bonus</li>
+                    <li><i class="fas fa-times"></i> **No** Creator Revenue Boost</li>
+                    <li><i class="fas fa-times"></i> **No** Premium Items</li>
+                    <li><i class="fas fa-times"></i> **No** Beta Access</li>
+                </ul>
+                <a href="#" class="btn btn-primary">Choose Basic</a>
+            </div>
+
+            <div class="price-card pro">
+                <div class="card-header">
+                    <div class="tier-name">Pro</div>
+                    <div class="tier-price">$29.99<small>/mo</small></div>
+                    <p>Best for regular players.</p>
+                </div>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Standard Game Access</li>
+                    <li><i class="fas fa-check"></i> Expanded Avatar Customization</li>
+                    <li><i class="fas fa-check"></i> **500** Daily Lumicoin Bonus</li>
+                    <li><i class="fas fa-check"></i> **+15%** Creator Revenue Boost</li>
+                    <li><i class="fas fa-times"></i> **No** Premium Items</li>
+                    <li><i class="fas fa-times"></i> **No** Beta Access</li>
+                </ul>
+                <a href="#" class="btn btn-secondary">Upgrade to Pro</a>
+            </div>
+
+            <div class="price-card ultimate">
+                <div class="card-header">
+                    <div class="tier-name"><i class="fas fa-crown"></i> Ultimate</div>
+                    <div class="tier-price">$49.99<small>/mo</small></div>
+                    <p>Maximum benefits for serious creators.</p>
+                </div>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Standard Game Access</li>
+                    <li><i class="fas fa-check"></i> **Maximum** Avatar Customization</li>
+                    <li><i class="fas fa-check"></i> **1,500** Daily Lumicoin Bonus</li>
+                    <li><i class="fas fa-check"></i> **+50%** Creator Revenue Boost</li>
+                    <li><i class="fas fa-check"></i> Premium Only Items Unlocked</li>
+                    <li><i class="fas fa-check"></i> Exclusive Beta Program Access</li>
+                </ul>
+                <a href="#" class="btn btn-secondary">Go Ultimate!</a>
+            </div>
+
+        </div>
+        
+        <p style="color: #6c757d; font-size: 0.9em;">Prices are billed monthly. Cancel anytime.</p>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu-dropdown');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    if (window.innerWidth <= 992) { 
+                        mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex';
+                    }
+                });
+            }
+
+            // Reset layout when screen resizes to PC view
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 992) {
+                    navLinks.style.display = 'flex'; // Show PC navigation
+                    mobileMenu.style.display = 'none'; // Hide mobile menu
+                } else {
+                    navLinks.style.display = 'none'; // Hide PC navigation on mobile
+                }
+            });
+        });
+    </script>
+</body>
+</html>
