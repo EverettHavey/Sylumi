@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylumi - Create New Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- Root and Global Styles (Consistent Theme) --- */
+        :root {
+            --color-primary: #0077b6; /* Deep Cerulean Blue */
+            --color-secondary: #00b894; /* Electric Green */
+            --color-text-dark: #2d3436;
+            --color-text-light: #f5f6fa;
+            --color-background: #e9ecef;
+            --color-card-bg: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --header-height: 65px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: var(--color-background);
+        }
+
+        a { text-decoration: none; color: var(--color-primary); }
+
+        /* --- Header Styles (Shared) --- */
+        .header {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 5%; background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-size: 1.8em; font-weight: 800; color: var(--color-primary); }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); }
+        .btn-primary:hover { background-color: #005f93; }
+        .btn-secondary { background-color: var(--color-secondary); color: var(--color-text-light); }
+        .btn-secondary:hover { background-color: #008f72; }
+
+        /* --- Creation Form Layout --- */
+        .create-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+        }
+
+        .create-container h1 {
+            color: var(--color-primary);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--color-text-dark);
+        }
+        
+        .form-group input[type="text"],
+        .form-group textarea,
+        .cost-display {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .hint {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        /* Icon Upload Area */
+        .icon-upload-area {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .icon-preview {
+            width: 80px;
+            height: 80px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: #ccc;
+            margin-right: 20px;
+        }
+
+        .icon-upload-button {
+            border: 1px solid var(--color-secondary);
+            color: var(--color-secondary);
+            background-color: #e0f8f3;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .icon-upload-button:hover {
+            background-color: #c9f1e8;
+        }
+        
+        .icon-upload-button input[type="file"] {
+            display: none;
+        }
+
+        /* Group Cost Styling (Like Roblox's 100 R$) */
+        .cost-section {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+        
+        .cost-section h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: var(--color-text-dark);
+        }
+        
+        .cost-display {
+            background-color: #fff3cd; 
+            color: #e17055;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .cost-display i {
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* --- Footer (Shared) --- */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-text-light);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 600px) {
+            .create-container {
+                margin: 20px 10px;
+                padding: 20px;
+            }
+            .groups-header h1 {
+                font-size: 1.8em;
+            }
+            .icon-upload-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .icon-preview {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sylumi</div>
+        <nav class="nav-links">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html">Avatar Shop</a> 
+        </nav>
+        <div class="user-actions">
+            <div class="currency-display">
+                <i class="fas fa-coins"></i> 
+                <span>1,250 LC</span>
+            </div>
+            <a href="buy-coins.html" class="btn btn-secondary" style="padding: 5px 10px;">Buy LC</a>
+            <div class="profile-icon">U</div>
+        </div>
+    </header>
+
+    <main class="create-container">
+        
+        <h1>Start a New Sylumi Group</h1>
+        
+        <form>
+            <div class="form-group">
+                <label for="group-name">Group Name</label>
+                <input type="text" id="group-name" name="group-name" maxlength="50" required placeholder="Enter a unique name for your community">
+                <p class="hint">50 characters maximum. This name cannot be changed later.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="group-icon">Group Icon (150x150 recommended)</label>
+                <div class="icon-upload-area">
+                    <div class="icon-preview"><i class="fas fa-image"></i></div>
+                    <label class="icon-upload-button">
+                        Upload Image
+                        <input type="file" id="group-icon" name="group-icon" accept="image/*">
+                    </label>
+                </div>
+                <p class="hint">Must be a square image (PNG or JPG). Max size 5MB.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="group-description">Group Description</label>
+                <textarea id="group-description" name="group-description" maxlength="500" placeholder="Tell others what your group is all about..."></textarea>
+                <p class="hint">500 characters maximum. Explain your purpose, rules, and goals.</p>
+            </div>
+            
+            <section class="cost-section">
+                <h2>Group Creation Cost</h2>
+                
+                <div class="cost-display">
+                    <i class="fas fa-coins"></i> 100 LumiCoins (LC)
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="groups.html" class="btn">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Create Group
+                    </button>
+                </div>
+            </section>
+        </form>
+        
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Basic form submission simulation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('group-name').value;
+            if (name.trim()) {
+                alert(`Attempting to create group "${name}" for 100 LC. (Success simulated!)`);
+                // In a real application, this would send data to the server
+                window.location.href = 'groups.html';
+            } else {
+                alert('Please enter a group name.');
+            }
+        });
+    </script>
+</body>
+</html>

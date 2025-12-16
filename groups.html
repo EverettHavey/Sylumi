@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylumi - Groups Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- Root and Global Styles (Consistent Theme) --- */
+        :root {
+            --color-primary: #0077b6; /* Deep Cerulean Blue */
+            --color-secondary: #00b894; /* Electric Green */
+            --color-text-dark: #2d3436;
+            --color-text-light: #f5f6fa;
+            --color-background: #e9ecef;
+            --color-card-bg: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --header-height: 65px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: var(--color-background);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+
+        /* --- Header Styles (Shared) --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: var(--header-height);
+        }
+        .logo { font-size: 1.8em; font-weight: 800; color: var(--color-primary); }
+        .nav-links { flex-grow: 1; margin-left: 30px; }
+        .nav-links a { margin: 0 15px; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--color-secondary); }
+        .user-actions { display: flex; align-items: center; }
+        .currency-display { 
+            display: flex; align-items: center; background-color: #ffeaa7; 
+            border: 1px solid #fdcb6e; padding: 5px 10px; border-radius: 20px; 
+            font-weight: 600; color: #e17055; margin-right: 15px; 
+        }
+        .currency-display i { margin-right: 5px; color: #e17055; }
+        .profile-icon { 
+            width: 35px; height: 35px; border-radius: 50%; background-color: var(--color-secondary);
+            color: white; display: flex; justify-content: center; align-items: center; font-weight: bold;
+        }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); }
+        .btn-primary:hover { background-color: #005f93; }
+        .btn-secondary { background-color: var(--color-secondary); color: var(--color-text-light); }
+        .btn-secondary:hover { background-color: #008f72; }
+        
+        /* Dropdown/Mobile styles omitted for brevity, assume shared structure */
+
+        /* --- Groups Page Layout --- */
+        .groups-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .groups-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .groups-header h1 {
+            font-size: 2.2em;
+            color: var(--color-primary);
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 40px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1em;
+        }
+        
+        /* --- Group List Section --- */
+        .group-list {
+            background-color: var(--color-card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: var(--color-text-dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .group-item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        /* Styling for an individual group in the list (like Roblox's tiles) */
+        .group-item {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .group-item:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .group-icon {
+            width: 80px;
+            height: 80px;
+            min-width: 80px; /* Prevent shrinking */
+            border-radius: 10px;
+            background-color: #dfe6e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5em;
+            color: var(--color-primary);
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .group-details h4 {
+            font-size: 1.2em;
+            margin-bottom: 2px;
+            color: var(--color-primary);
+        }
+
+        .group-details p {
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.3;
+        }
+
+        .group-details .member-count {
+            font-weight: 600;
+            color: var(--color-secondary);
+            margin-top: 5px;
+        }
+
+        /* --- Footer (Shared) --- */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-text-light);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .groups-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                width: 100%;
+                margin: 20px 0;
+            }
+            .group-item-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sylumi</div>
+        <nav class="nav-links">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html">Avatar Shop</a> 
+        </nav>
+        <div class="user-actions">
+            <div class="currency-display">
+                <i class="fas fa-coins"></i> 
+                <span>1,250 LC</span>
+            </div>
+            <a href="buy-coins.html" class="btn btn-secondary" style="padding: 5px 10px;">Buy LC</a>
+            <div class="profile-icon">U</div>
+        </div>
+    </header>
+
+    <main class="groups-container">
+        
+        <div class="groups-header">
+            <h1>Sylumi Group Directory</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for groups by name or keyword...">
+            </div>
+            <a href="create-group.html" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Group
+            </a>
+        </div>
+        
+        <div class="group-list">
+            <div class="section-title">
+                Top Trending Groups
+            </div>
+            
+            <div class="group-item-grid">
+                
+                <div class="group-item">
+                    <div class="group-icon" style="background-color: #0077b6; color: white;"><i class="fas fa-certificate"></i></div>
+                    <div class="group-details">
+                        <h4>Sylumi Official</h4>
+                        <p>The main hub for all news, updates, and announcements.</p>
+                        <div class="member-count">250,000 Members</div>
+                    </div>
+                </div>
+
+                <div class="group-item">
+                    <div class="group-icon"><i class="fas fa-code"></i></div>
+                    <div class="group-details">
+                        <h4>Master Builders Club</h4>
+                        <p>For creators designing the next generation of Sylumi games.</p>
+                        <div class="member-count">15,480 Members</div>
+                    </div>
+                </div>
+
+                <div class="group-item">
+                    <div class="group-icon"><i class="fas fa-mask"></i></div>
+                    <div class="group-details">
+                        <h4>Realm of Fantasia RP</h4>
+                        <p>Discuss theories and organize roleplay sessions in the Fantasia World.</p>
+                        <div class="member-count">88,102 Members</div>
+                    </div>
+                </div>
+                
+                <div class="group-item">
+                    <div class="group-icon" style="background-color: #f7a300;"><i class="fas fa-star"></i></div>
+                    <div class="group-details">
+                        <h4>Sky Tower Fanatics</h4>
+                        <p>The largest community dedicated to the hit game, Sky Tower!</p>
+                        <div class="member-count">112,900 Members</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="group-list" style="margin-top: 30px;">
+            <div class="section-title">
+                Groups You Might Like
+            </div>
+            <div class="group-item-grid">
+                <div class="group-item">
+                    <div class="group-icon"><i class="fas fa-robot"></i></div>
+                    <div class="group-details">
+                        <h4>Tech Enthusiasts</h4>
+                        <p>Talk about scripting and advanced mechanics.</p>
+                        <div class="member-count">4,500 Members</div>
+                    </div>
+                </div>
+                <div class="group-item">
+                    <div class="group-icon"><i class="fas fa-camera"></i></div>
+                    <div class="group-details">
+                        <h4>Avatar Fashion Show</h4>
+                        <p>Show off your best outfits and win prizes.</p>
+                        <div class="member-count">22,300 Members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

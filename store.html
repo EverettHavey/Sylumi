@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylumi Avatar Shop - Exclusive Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Root and Global Styles --- */
+        :root {
+            --color-primary: #0077b6; /* Deep Cerulean Blue */
+            --color-secondary: #00b894; /* Electric Green */
+            --color-text-dark: #2d3436;
+            --color-text-light: #f5f6fa;
+            --color-background: #e9ecef;
+            --color-card-bg: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --header-height: 65px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: var(--color-background);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+
+        /* --- Header & Navigation (Shared Styles) --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            background-color: var(--color-card-bg); 
+            box-shadow: 0 2px 4px var(--color-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: var(--header-height);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--color-secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Currency Dropdown Container */
+        .currency-dropdown-container {
+            position: relative;
+            cursor: pointer;
+            z-index: 1010; 
+        }
+
+        .currency-display {
+            display: flex;
+            align-items: center;
+            background-color: #ffeaa7;
+            border: 1px solid #fdcb6e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #e17055;
+            margin-right: 15px;
+        }
+
+        .currency-display i {
+            margin-right: 5px;
+            color: #e17055;
+        }
+
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--color-secondary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        /* DROPDOWN PANEL STYLES */
+        .currency-dropdown-panel {
+            display: none; 
+            position: absolute;
+            top: 100%; 
+            right: 0;
+            width: 250px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+            margin-top: 10px; 
+            padding: 10px 0;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: var(--color-text-dark);
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f3f5;
+        }
+
+        .dropdown-item i {
+            margin-right: 10px;
+            color: var(--color-primary);
+        }
+
+        .dropdown-item.buy-lc-link {
+            color: var(--color-secondary); 
+            font-weight: 600;
+            border-top: 1px solid #eee;
+            margin-top: 5px;
+            padding-top: 15px;
+        }
+        /* END DROPDOWN PANEL STYLES */
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+        }
+        
+        .btn-primary:hover {
+            background-color: #005f93;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary); 
+            color: var(--color-text-light);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #008f72;
+            transform: translateY(-2px);
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle {
+            display: none; 
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: var(--color-primary);
+        }
+
+        /* --- Store Page Layout --- */
+        .store-container {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .store-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .store-header h1 {
+            font-size: 2.5em;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+
+        /* --- Filtering Sidebar (Left Column) --- */
+        .store-content {
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Fixed sidebar, flexible content */
+            gap: 30px;
+        }
+
+        .filter-sidebar {
+            background-color: var(--color-card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--color-shadow);
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-group h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .filter-sidebar a {
+            display: block;
+            padding: 5px 0;
+            color: var(--color-text-dark);
+            transition: color 0.2s;
+            font-size: 0.95em;
+        }
+
+        .filter-sidebar a:hover, .filter-sidebar a.active {
+            color: var(--color-secondary);
+            font-weight: 600;
+        }
+        
+        /* --- Item Grid (Right Column) --- */
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px var(--color-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 180px;
+            background-color: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            color: #bdc3c7;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-info {
+            padding: 15px 10px;
+        }
+
+        .item-info h4 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .item-price {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #e17055;
+            margin-bottom: 10px;
+        }
+
+        .item-price i {
+            color: #e17055;
+            margin-right: 5px;
+        }
+
+        .item-card .buy-btn {
+            width: 90%;
+            padding: 8px;
+            font-size: 0.9em;
+            background-color: var(--color-primary);
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        /* --- Footer (Shared Styles) --- */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-text-light);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-light);
+            margin: 0 15px;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 992px) {
+            .store-content {
+                grid-template-columns: 1fr; /* Stack sidebar and content */
+            }
+            .filter-sidebar {
+                box-shadow: none;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile Navigation Toggle */
+            .nav-links, .user-actions {
+                display: none; 
+                flex-direction: column;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                background-color: var(--color-card-bg);
+                box-shadow: 0 4px 8px var(--color-shadow);
+                padding: 10px 0;
+            }
+            .nav-links {
+                top: var(--header-height);
+            }
+            .user-actions {
+                top: calc(var(--header-height) + 160px); 
+            }
+            .menu-toggle {
+                display: block; 
+            }
+            .nav-links a {
+                margin: 5px auto;
+            }
+            .currency-display {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .currency-dropdown-container {
+                width: 100%; 
+                margin-bottom: 10px;
+            }
+            .currency-dropdown-panel {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        @media (max-width: 500px) {
+            .item-grid {
+                /* Even smaller screens stack items better */
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sylumi</div>
+        <nav class="nav-links">
+            <a href="index.html">Play</a>
+            <a href="create.html">Create</a>
+            <a href="community.html">Community</a>
+            <a href="store.html" class="active">Avatar Shop</a> 
+        </nav>
+        <div class="user-actions">
+            
+            <div class="currency-dropdown-container">
+                <div class="currency-display" id="currency-toggle">
+                    <i class="fas fa-coins"></i> 
+                    <span id="lumicoin-balance">1,250 LC</span>
+                </div>
+
+                <div class="currency-dropdown-panel">
+                    <div class="dropdown-item">
+                        <i class="fas fa-wallet"></i> 
+                        Current Balance: <span style="font-weight:700; margin-left: auto;">1,250 LC</span>
+                    </div>
+                    <a href="store.html" class="dropdown-item">
+                        <i class="fas fa-tshirt"></i> 
+                        Visit Avatar Shop
+                    </a>
+                    <a href="buy-coins.html" class="dropdown-item buy-lc-link">
+                        <i class="fas fa-dollar-sign"></i> 
+                        Buy More LumiCoins
+                    </a>
+                </div>
+            </div>
+
+            <button class="btn btn-login">Log Out</button> 
+            <div class="profile-icon">U</div>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
+    </header>
+
+    <main class="store-container">
+        <div class="store-header">
+            <h1>🎨 The Sylumi Avatar Shop</h1>
+            <p>Customize your character with exclusive accessories and outfits!</p>
+        </div>
+
+        <div class="store-content">
+            
+            <aside class="filter-sidebar">
+                <div class="filter-group">
+                    <h3>Categories</h3>
+                    <a href="#" class="active">Featured</a>
+                    <a href="#">Hats & Hair</a>
+                    <a href="#">Shirts & Outfits</a>
+                    <a href="#">Accessories (Back)</a>
+                    <a href="#">Faces & Emotes</a>
+                </div>
+                <div class="filter-group">
+                    <h3>Price Range</h3>
+                    <a href="#">Under 500 LC</a>
+                    <a href="#">500 - 2,000 LC</a>
+                    <a href="#">Premium (2,000+ LC)</a>
+                </div>
+                <div class="filter-group" style="border-bottom: none;">
+                    <h3>Creators</h3>
+                    <a href="#">Sylumi Originals</a>
+                    <a href="#">Top Rated</a>
+                    <a href="#">New Uploads</a>
+                </div>
+            </aside>
+
+            <div class="item-display">
+                <div class="item-grid">
+                    
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-hat-wizard"></i></div>
+                        <div class="item-info">
+                            <h4>Galactic Wizard Hat</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 1,500
+                            </div>
+                            <button class="btn buy-btn" data-price="1500" data-item="Galactic Wizard Hat">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-tshirt"></i></div>
+                        <div class="item-info">
+                            <h4>Electric Synth Shirt</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 800
+                            </div>
+                            <button class="btn buy-btn" data-price="800" data-item="Electric Synth Shirt">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-rocket"></i></div>
+                        <div class="item-info">
+                            <h4>Mini Booster Pack</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 2,250
+                            </div>
+                            <button class="btn buy-btn" data-price="2250" data-item="Mini Booster Pack">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-glasses"></i></div>
+                        <div class="item-info">
+                            <h4>Pixel Sunglasses</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 450
+                            </div>
+                            <button class="btn buy-btn" data-price="450" data-item="Pixel Sunglasses">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-user-astronaut"></i></div>
+                        <div class="item-info">
+                            <h4>Zero-G Hairstyle</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 1,100
+                            </div>
+                            <button class="btn buy-btn" data-price="1100" data-item="Zero-G Hairstyle">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-gem" style="color:#d13854;"></i></div>
+                        <div class="item-info">
+                            <h4>Ruby Aura (Limited)</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 5,000
+                            </div>
+                            <button class="btn btn-secondary buy-btn" data-price="5000" data-item="Ruby Aura">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-cookie-bite"></i></div>
+                        <div class="item-info">
+                            <h4>Cookie Pet Shoulder</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 950
+                            </div>
+                            <button class="btn buy-btn" data-price="950" data-item="Cookie Pet Shoulder">Buy</button>
+                        </div>
+                    </div>
+                    
+                    <div class="item-card">
+                        <div class="item-image"><i class="fas fa-shoe-prints"></i></div>
+                        <div class="item-info">
+                            <h4>Hyper Speed Boots</h4>
+                            <div class="item-price">
+                                <i class="fas fa-coins"></i> 1,350
+                            </div>
+                            <button class="btn buy-btn" data-price="1350" data-item="Hyper Speed Boots">Buy</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Sylumi Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // --- Internal JavaScript for Functionality ---
+        
+        // --- 1. Mobile Menu Toggle & Dropdown (Shared Logic) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const userActions = document.querySelector('.user-actions');
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            
+            const currencyContainer = document.querySelector('.currency-dropdown-container');
+            const dropdownPanel = document.querySelector('.currency-dropdown-panel');
+            
+            // Mobile Toggle Logic
+            menuToggle.addEventListener('click', function() {
+                const isVisible = navLinks.style.display === 'flex';
+                
+                if (!isVisible) {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.top = `${headerHeight}px`;
+
+                    userActions.style.display = 'flex';
+                    userActions.style.top = `${headerHeight + navLinks.offsetHeight}px`; 
+                    
+                    dropdownPanel.style.display = 'none'; // Close dropdown if menu opens
+
+                } else {
+                    navLinks.style.display = 'none';
+                    userActions.style.display = 'none';
+                }
+            });
+
+            // Dropdown Toggle Logic
+            currencyContainer.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdownPanel.style.display = dropdownPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function() {
+                if (dropdownPanel.style.display === 'block') {
+                    dropdownPanel.style.display = 'none';
+                }
+            });
+
+            // --- 2. Item Purchase Simulation ---
+            const buyButtons = document.querySelectorAll('.buy-btn');
+            const currentBalanceElement = document.getElementById('lumicoin-balance');
+            let currentBalance = 1250; // Initial simulated balance
+
+            // Function to update the displayed balance
+            const updateBalanceDisplay = (newBalance) => {
+                currentBalanceElement.textContent = `${newBalance.toLocaleString()} LC`;
+                currentBalance = newBalance;
+                
+                // Update balance in the dropdown panel as well
+                document.querySelector('.dropdown-item span[style*="700"]').textContent = `${newBalance.toLocaleString()} LC`;
+            };
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const item = this.getAttribute('data-item');
+                    
+                    if (currentBalance >= price) {
+                        const newBalance = currentBalance - price;
+                        
+                        alert(`SUCCESS! You purchased: ${item} for ${price.toLocaleString()} LC. Your new balance is ${newBalance.toLocaleString()} LC.`);
+                        
+                        // Simulate purchase by updating the balance
+                        updateBalanceDisplay(newBalance);
+
+                    } else {
+                        alert(`INSUFFICIENT FUNDS! You need ${price.toLocaleString()} LC to buy the ${item}, but you only have ${currentBalance.toLocaleString()} LC. Please visit the Buy More LumiCoins page.`);
+                    }
+                });
+            });
+
+            // Initialize balance display when the page loads
+            updateBalanceDisplay(currentBalance);
+        });
+    </script>
+</body>
+</html>
